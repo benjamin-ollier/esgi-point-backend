@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model MemberActivity {
+  id          String   @id @default(cuid())
+  communityId String
+  memberId    String
+  postsCount  Int      @default(0)
+  eventsCount Int      @default(0)
+  totalPoints Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@unique([communityId, memberId])
+}

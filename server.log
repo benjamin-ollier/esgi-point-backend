@@ -1,0 +1,20 @@
+
+> points-open-backend@1.0.0 dev
+> ts-node src/main.ts
+
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +472ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPointsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mScheduleModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/health, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStatsController {/stats}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stats/:communityId/:memberId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 54753  - [39m05/29/2026, 12:08:07 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +10ms[39m
+
+🚀 Points Open Backend running on http://localhost:4000
+🎯 Widget ID: test_widget_id
+🔗 Clubz API: http://localhost:3000
+⏱  Cron: every 5 minutes
+

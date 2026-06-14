@@ -1,12 +1,12 @@
 {
   "name": "points-open-backend",
   "version": "1.0.0",
-  "description": "Backend NestJS du widget Points Open — distribue des Points Open toutes les 5 minutes via l'API Clubz",
+  "description": "Backend NestJS du widget Points Open — distribue des Points Open toutes les 5 minutes via l'API Klyb",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/main.js",
-    "dev": "ts-node src/main.ts",
-    "recalculate": "ts-node src/recalculate.ts"
+    "build": "prisma generate && tsc",
+    "start": "prisma db push && node dist/main.js",
+    "dev": "prisma db push && ts-node src/main.ts",
+    "recalculate": "prisma db push && ts-node src/recalculate.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -21,6 +21,7 @@
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^20.0.0",
     "ts-node": "^10.9.0",
     "typescript": "^5.0.0"

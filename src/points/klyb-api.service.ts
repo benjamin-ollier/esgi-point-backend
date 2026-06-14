@@ -2,22 +2,22 @@ import { Injectable, Logger } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 
 /**
- * Ce service est le "SDK Server-to-Server" pour communiquer avec l'API Clubz.
+ * Ce service est le "SDK Server-to-Server" pour communiquer avec l'API Klyb.
  * Il utilise la Clé API développeur pour s'authentifier.
  */
 @Injectable()
-export class ClubzApiService {
-  private readonly logger = new Logger(ClubzApiService.name);
+export class KlybApiService {
+  private readonly logger = new Logger(KlybApiService.name);
   private readonly client: AxiosInstance;
   private readonly widgetId: string;
 
   constructor() {
-    const apiUrl = process.env.CLUBZ_API_URL;
-    const apiKey = process.env.CLUBZ_API_KEY;
+    const apiUrl = process.env.KLYB_API_URL;
+    const apiKey = process.env.KLYB_API_KEY;
     this.widgetId = process.env.WIDGET_ID || '';
 
     if (!apiUrl || !apiKey || !this.widgetId) {
-      throw new Error('Missing required env vars: CLUBZ_API_URL, CLUBZ_API_KEY, WIDGET_ID');
+      throw new Error('Missing required env vars: KLYB_API_URL, KLYB_API_KEY, WIDGET_ID');
     }
 
     this.client = axios.create({
@@ -50,7 +50,12 @@ export class ClubzApiService {
   async getCommunityMembers(communityId: string): Promise<Member[]> {
     try {
       const { data } = await this.client.get(`/developer/data/communities/${communityId}/members`);
-      return data;
+      return data.map((item: any) => ({
+        id: item.userId,
+        username: item.user?.username || '',
+        name: item.user?.name || '',
+        points: item.user?.points || 0,
+      }));
     } catch (err: any) {
       this.logger.error(`Failed to get members for community ${communityId}: ${err.message}`);
       return [];
@@ -77,8 +82,8 @@ export class ClubzApiService {
     try {
       const { data } = await this.client.get(`/developer/data/communities/${communityId}/members/${memberId}/activity`);
       return {
-        postsCount: data.postsCount || 0,
-        eventsCount: data.eventsCount || 0,
+        postsCount: data.activity?.totalPosts || 0,
+        eventsCount: data.activity?.totalEvents || 0,
       };
     } catch (err: any) {
       this.logger.error(`Failed to get activity for member ${memberId}: ${err.message}`);

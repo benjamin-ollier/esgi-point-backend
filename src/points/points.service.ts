@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { ClubzApiService } from './clubz-api.service';
+import { KlybApiService } from './klyb-api.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 /**
@@ -11,14 +11,14 @@ import { PrismaService } from '../prisma/prisma.service';
  *  2. Pour chaque installation, lit la config définie par l'admin
  *  3. Récupère les membres actifs de la communauté
  *  4. Calcule les points à distribuer en fonction des paramètres
- *  5. Appelle l'API Clubz pour attribuer les nouveaux points
+ *  5. Appelle l'API Klyb pour attribuer les nouveaux points
  */
 @Injectable()
 export class PointsService {
   private readonly logger = new Logger(PointsService.name);
 
   constructor(
-    private readonly clubzApi: ClubzApiService,
+    private readonly klybApi: KlybApiService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -30,7 +30,7 @@ export class PointsService {
     this.logger.log('⏰ Cron déclenché — Recalcul des Points Open...');
 
     // ── Étape 1 : Récupérer toutes les installations actives ─────────────────
-    const installations = await this.clubzApi.getInstallations();
+    const installations = await this.klybApi.getInstallations();
 
     if (installations.length === 0) {
       this.logger.warn('Aucune installation active trouvée. Cron terminé.');
@@ -60,7 +60,7 @@ export class PointsService {
     );
 
     // ── Étape 3 : Récupérer les membres ──────────────────────────────────────
-    const members = await this.clubzApi.getCommunityMembers(communityId);
+    const members = await this.klybApi.getCommunityMembers(communityId);
 
     if (members.length === 0) {
       this.logger.warn(`  ⚠️  Aucun membre trouvé pour la communauté ${communityId}.`);
@@ -69,8 +69,8 @@ export class PointsService {
 
     // ── Étape 4 & 5 : Calculer et distribuer les points ──────────────────────
     const rewardPromises = members.map(async (member) => {
-      // Récupération de l'activité du membre pour le calcul précis depuis clubz_api
-      const activity = await this.clubzApi.getMemberActivity(communityId, member.id);
+      // Récupération de l'activité du membre pour le calcul précis depuis klyb_api
+      const activity = await this.klybApi.getMemberActivity(communityId, member.id);
       
       const postsPoints = activity.postsCount * pointsPerPost;
       const eventsPoints = activity.eventsCount * pointsPerEvent;
@@ -88,7 +88,7 @@ export class PointsService {
       );
 
       if (newPoints > 0) {
-        await this.clubzApi.rewardUser(
+        await this.klybApi.rewardUser(
           member.id,
           newPoints,
           `Points Open (diff): posts (${activity.postsCount}), events (${activity.eventsCount})`

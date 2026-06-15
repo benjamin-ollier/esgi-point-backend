@@ -6,7 +6,8 @@
     "build": "prisma generate && tsc",
     "start": "prisma db push && node dist/main.js",
     "dev": "prisma db push && ts-node src/main.ts",
-    "recalculate": "prisma db push && ts-node src/recalculate.ts"
+    "recalculate": "prisma db push && ts-node src/recalculate.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
